@@ -1464,7 +1464,25 @@ Irrelevant to the protocol, ONOS is divided into the following parts:
 
 Each of the below layers is a layered architecture, where the network-oriented modules interact with the Core through a southbound (provider) API, and the Core interacts with the application through the northbound (consumer) API. Southbound API defines a protocol-neutral means to pass network status information to the core, and the core interacts with network devices through network-oriented modules. The Northbound API provides applications with abstractions describing network components and attributes so that they can define their required actions based on policies.
 
+### Open Network Automation Platform (ONAP)
 
+Is a networking project that provides a digital environment for the orchestration and automation of complex network services. ONAP consolidates resources that help to manage the lifecycles of virtual network functions (VNFs), software defined networks (SDNs) and systems that enable programming in the cloud.
+
+ONAP platform allows end-user organizations and their network/cloud providers to collaboratively instantiate network elements and services in a rapid and dynamic way, together with supporting a closed control loop process that supports real-time response to actionable events.
+
+A high-level view of the ONAP architecture with its microservices-based platform components its shown in the above image:
+
+<p align="center"><img src="images/ONAP Architecture.png" alt="ONAP Architecture" width="800"/></p>
+
+A simplified functional description of the architecture, which highlights the role of a few key components: 
+
+- Design time environment for onboarding services and resources into ONAP and designing required services.
+- External API provides northbound interoperability for the ONAP Platform and Multi-VIM/Cloud provides cloud interoperability for the ONAP workloads.
+- OOM provides the ability to manage cloud-native installation and deployments to Kubernetes-managed cloud environments.
+- ONAP Shared Services provides shared capabilities for ONAP modules. MUSIC allows ONAP to scale to multi-site environments to support global scale infrastructure requirements. The ONAP Optimization Framework (OOF) provides a declarative, policy-driven approach for creating and running optimization
+   applications like Homing/Placement, and Change Management Scheduling Optimization. Logging provides centralized logging capabilities, Audit (POMBA) provides capabilities to understand orchestration actions.
+- ONAP shared utilities provide utilities for the support of the ONAP components.
+- Information Model and framework utilities continue to evolve to harmonize the topology, workflow, and policy models from a number of SDOs including ETSI NFV MANO, TM Forum SID, ONF Core, OASIS TOSCA, IETF, and MEF.
 
 # NSO Overview
 
