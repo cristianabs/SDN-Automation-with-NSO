@@ -1576,6 +1576,10 @@ For details on the output see $NCS_DIR/src/yang/tailf-common-monitoring.yang and
 
 It is also important to look at the packages that are loaded. This can be done in the CLI with "**show packages**" command.
 
+#### 3. How Config
+
+#### 4. How Backup and Restore (File system)
+
 # NSO Admin CLI
 
 # NSO Developers
