@@ -1430,11 +1430,13 @@ As shown in Figure, the architecture mainly comprises three layers:
 
 <p align="center"><img src="images/OPL Architecture1.png" alt="ODL Architecture 1" width="700"/></p>
 
-1. Southbound plugins and protocols forming the network device layer.
+1. Northbound APIs and applications forming the application layer
 2. Service adaptation and network functions forming the coordination and control layer.
-3. Northbound APIs and applications forming the application layer
+3. Southbound plugins and protocols forming the network device layer.
 
-ds
+Might
+
+**Note**: The controller acts like middleware in the OpenDaylight ecosystem. It is the framework that glues together the applications requiring services of the network devices and the protocols that talk to the network devices for extracting services.
 
 # NSO Overview
 
