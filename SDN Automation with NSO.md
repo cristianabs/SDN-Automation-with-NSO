@@ -1430,13 +1430,41 @@ As shown in Figure, the architecture mainly comprises three layers:
 
 <p align="center"><img src="images/OPL Architecture1.png" alt="ODL Architecture 1" width="700"/></p>
 
-1. Northbound APIs and applications forming the application layer
+1. Northbound APIs and applications forming the application layer.
+
+   OpenDaylight, supports both the OSGi framework and the bidirectional REST APIs in the northbound layer. The OSGi framework is mainly used by applications that will run in the same address space as the controller, whereas the REST (Web-based) API is used by applications that can run on same machine as the controller or on a different machine. These applications typically realize a business logic and may include all the necessary algorithms.
+
 2. Service adaptation and network functions forming the coordination and control layer.
+
+   The  basic network functions included are services for topology discovery and dissemination, a forwarding manager for managing basic forwarding rules, and a switch manager for identifying networking elements in the underlying physical topology. 
+
+   **Service Abstraction Layer (SAL)**:  Is the key design that enables the abstraction of services between the services consumers and producers. Acts like a large registry of services advertised by various modules and binds them to the applications that require them. Modules providing services, or producers, can register their APIs with the registry. 
+
 3. Southbound plugins and protocols forming the network device layer.
 
-Might
+   Supports multiple protocols (as separate plugins), e.g. OpenFlow 1.0, OpenFlow 1.3, BGP-LS, LISP, SNMP, etc. These modules are dynamically linked to a service abstraction layer **(SAL)**, which determines how to fulfill the service requested (by applications) irrespective of the underlying protocol used between the controller and the network devices.
 
 **Note**: The controller acts like middleware in the OpenDaylight ecosystem. It is the framework that glues together the applications requiring services of the network devices and the protocols that talk to the network devices for extracting services.
+
+### Open Network Operating System (ONOS)
+
+Is an SDN controller open source project that uses OSGI technology to manage sub-projects. Its design has the next goals:
+
+- Code modularity: support the introduction of new functions as a new independent unit
+- Features are configurable: support dynamic loading and unloading features no matter at startup or runtime
+- Protocol-independent: applications do not need to be bound to specific protocol libraries and implementations
+
+Irrelevant to the protocol, ONOS is divided into the following parts:
+
+- Protocol awareness module that interacts with the network
+- Protocol-independent system Core, tracking and serving network status information
+- Applications that consume and operate based on system information provided by Core
+
+<p align="center"><img src="images/ONOS Architecture.jpg" alt="ONOS Architecture" width="700"/></p>
+
+Each of the below layers is a layered architecture, where the network-oriented modules interact with the Core through a southbound (provider) API, and the Core interacts with the application through the northbound (consumer) API. Southbound API defines a protocol-neutral means to pass network status information to the core, and the core interacts with network devices through network-oriented modules. The Northbound API provides applications with abstractions describing network components and attributes so that they can define their required actions based on policies.
+
+
 
 # NSO Overview
 
