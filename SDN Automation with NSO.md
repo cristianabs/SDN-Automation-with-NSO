@@ -1417,14 +1417,24 @@ Is an open-source collaborative project based on the OSGi architecture that focu
 >This is like a service-oriented architecture (SOA) which has been largely used in web services. Here OSGi services are local to a single VM, so it is sometimes called SOA in a VM.
 
 
-ODL supports: 
+OpenDayLight supports: 
 
 - Network programmability via southbound protocols
 - Bunch of programmable network services 
 - Collection of northbound APIs
 - Set of applications. 
 
-#### ODL Architecture
+#### OpenDayLight Architecture
+
+As shown in Figure, the architecture mainly comprises three layers:
+
+<p align="center"><img src="images/OPL Architecture1.png" alt="ODL Architecture 1" width="700"/></p>
+
+1. Southbound plugins and protocols forming the network device layer.
+2. Service adaptation and network functions forming the coordination and control layer.
+3. Northbound APIs and applications forming the application layer
+
+ds
 
 # NSO Overview
 
