@@ -77,7 +77,7 @@ They are also used to communicate with various components of a network through s
 - Northbound APIs
 - Southbound APIs. 
 
-<p align="center"><img src="https://codimd.ietf.org/uploads/upload_05f968e705de9407ee2babeb0b3c70a5.png" alt="APIs Introduction" width="300"/></p>
+<p align="center"><img src="images/APIs Introduction.png" alt="APIs Introduction" width="300"/></p>
 
 
 ### Introduction
