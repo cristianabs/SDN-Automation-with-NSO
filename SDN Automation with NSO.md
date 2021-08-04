@@ -542,7 +542,7 @@ The advantages of **OpenAPI** are:
 
 The benefits of **OpenAPI** are:
 
-<p align="center"><img src="https://static1.smartbear.co/swagger/media/blog/wp-hub/openapidrivendevelopment.png" alt="git structure" width="600" align="center"/></p>
+<p align="center"><img src="images/openapistructure.png" alt="openapi structure" width="600" align="center"/></p>
 
 ## YANG, YAML, JSON (Add XML)
 
@@ -1278,7 +1278,7 @@ A SOAP message is encoded as an XML document, consisting of an `<Envelope>` elem
 
 XML elements in `<Header>` and `<Body>` are defined by the applications that make use of them, although the SOAP specification imposes some constraints on their structure. The following diagram shows the structure of a SOAP message.
 
-<p align="center"><img src="https://www.ibm.com/docs/en/SSMKHH_10.0.0/com.ibm.etools.mft.doc/soap_message_structure.gif" alt="SOAP Message Structure" width="200" align="center"/></p>
+<p align="center"><img src="images/SOAP Message Structure.jpg" alt="SOAP Message Structure" width="350" align="center"/></p>
 
 The **SOAP nodes** act as points in the flow where web service processing is configured and applied. Properties on the SOAP nodes control the processing carried out and can be configured by supplying a WSDL definition, or by manually configuring properties, or both.
 
@@ -1300,7 +1300,7 @@ Is Google’s approach to a client-server application that takes principles from
 
 gRPC services are generated based on a proto file provided. Using the proto file, gRPC generates for a server and a stub (some languages just call it a client) the logic. The following diagram, taken from gRPC documentation, represents the client-server schematics:
 
-<p align="center"><img src="https://alexandreesl.files.wordpress.com/2017/05/grpc-1.png?w=720" alt="gRPC diagram" width="500" align="center"/></p>
+<p align="center"><img src="images/gRPC diagram.png" alt="gRPC diagram" width="550" align="center"/></p>
 
 Protocol buffer is gRPC’s serialization mechanism, which allows send compressed messages between services, allowing to process more data with less network roundtrips between the parts.
 
@@ -1406,7 +1406,7 @@ Is an open-source collaborative project based on the OSGi architecture that focu
 >Is a framework provides a dynamic modular architecture which has been used in many applications such as Eclipse Equinox, Apache Felix, etc. 
 >OSGi framework architecture consists three conceptual layers. Each layer is dependent on the layer(s) beneath it. The diagram below describe the overview of each layer:
 >
-><p align="center"><img src="https://www.programcreek.com/wp-content/uploads/2011/07/OSGiLayeredArchitecture1.jpg?ezimgfmt=rs%3Adevice%2Frscb12-1" alt="OSGI Architecture" width="300"/></p>
+><p align="center"><img src="images/OSGiLayeredArchitecture.jpg" alt="OSGI Architecture" width="300"/></p>
 >
 >**Module layer** defines OSGi module concept - bundle, which is a JAR file with extra metadata. A bundle contains class files and related resources such as images, xml files.
 >
@@ -1440,7 +1440,7 @@ The key features of NSO that comes into play includes:
 
 ## NSO Architecture
 
-<p align="center"><img src="https://www.nil.com/assets/News/2015/Cisco-NSO-Logical-Architecture.jpg" alt="NSO Architecture" width="600"/></p>
+<p align="center"><img src="images/Cisco-NSO-Logical-Architecture.jpg" alt="NSO Architecture" width="600"/></p>
 
 **NSO** has two main layers that serve different purposes but are tightly integrated with a transactional engine and database.
 
