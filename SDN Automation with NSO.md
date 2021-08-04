@@ -508,7 +508,7 @@ Is an open source ([git-scm.com](https://git-scm.com/)) Distributed Version Cont
 
 When commiting changes to version controlled **files**, Git stores **full copies** of all the changed files. It also stores a **tree** which contains links to all the changed files and previously-committed-unchanged-files in the current commit. Git computes a SHA1 hash of all stored files, trees and commits, and then uses the commit hashes to uniquely refer to individual commits. By computing and storing these hashes, git can detect changes to files and assure that the files retrieved from the repository are exactly as they were when committed to the repository.
 
-<p align="center"><img src="http://git-scm.com/figures/18333fig0903-tn.png" alt="git structure" width="500" align="center"/></p>
+<p align="center"><img src="images/GitStructure.png" alt="GitStructure" width="500" align="center"/></p>
 
 ## APIs and OpenAPI
 
