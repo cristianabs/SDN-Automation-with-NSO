@@ -479,19 +479,19 @@ Is the version-control method where users copy files into another directory (per
 
 
 
-<p align="center"><img src="https://git-scm.com/book/en/v2/images/local.png" alt="LVCS" width="350" align="center"/></p>
+<p align="center"><img src="images/localVCS.png" alt="localVCS" width="350" align="center"/></p>
 
 ##### Centralized Version Control System
 
 These systems have a single server that contains all the versioned files, and a number of clients that check out files from that central place. This setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents.
 
-<p align="center"><img src="https://git-scm.com/book/en/v2/images/centralized.png" alt="LVCS" width="400" align="center"/></p>
+<p align="center"><img src="images/centralizedVCS.png" alt="centralizedVCS" width="400" align="center"/></p>
 
 ##### Distributed Version Control Systems
 
 In a DVCS, clients don’t just check out the latest snapshot of the files; rather, they fully mirror the repository, including its full history. Thus, if any server dies, and these systems were collaborating via that server, any of the client repositories can be copied back up to the server to restore it. Every clone is really a full backup of all the data.
 
-<p align="center"><img src="https://git-scm.com/book/en/v2/images/distributed.png" alt="LVCS" width="400" align="center"/></p>
+<p align="center"><img src="images/distributedVCS.png" alt="distributedVCS" width="400" align="center"/></p>
 
 ##### GIT
 
