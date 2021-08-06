@@ -1472,7 +1472,7 @@ ONAP platform allows end-user organizations and their network/cloud providers to
 
 A high-level view of the ONAP architecture with its microservices-based platform components its shown in the above image:
 
-<p align="center"><img src="images/ONAP Architecture.png" alt="ONAP Architecture" width="800"/></p>
+<p align="center"><img src="images/ONAP Architecture.png" alt="ONAP Architecture" width="600"/></p>
 
 A simplified functional description of the architecture, which highlights the role of a few key components: 
 
@@ -1577,6 +1577,41 @@ For details on the output see $NCS_DIR/src/yang/tailf-common-monitoring.yang and
 It is also important to look at the packages that are loaded. This can be done in the CLI with "**show packages**" command.
 
 #### 3. How Config
+
+NSO can be configured in two ways:
+
+1. Configuration file "ncs.conf".
+2. Configuration data at run-time over northbound.
+
+There is a large number of configuration items in ncs.conf, most of them have sane default values. The ncs.conf file is an XML file that must adhere to the **tailf-ncs- config.yang** model. 
+
+The **tailf-ncs- config.yang** is the most important YANG module that is used to control and configure NSO. Everything in that module is available through the northbound APIs. The YANG module has descriptions for everything that can be configured.
+
+**Note**: The **ncs.conf** file is described by the the section called **“CONFIGURATION PARAMETERS”** in ***NSO 5.2 Manual Pages***.
+
+It is possible to edit the ncs.conf file, and then tell NSO to reload the edited file without restarting the daemon and also close and reopen all log files with: **ncs --reload**
+
+Dynamic config can be made through the NSO northbound interfaces manipulating YANG modules its structure is stored in CDB, any change under, /devices/device will change the CDB. Most relevant settings that can be manipulated are:
+
+| Setting name               | Description                                                  |
+| :------------------------- | :----------------------------------------------------------- |
+| aaa                        | AAA management, users and groups                             |
+| cluster                    | Cluster configuration                                        |
+| devices                    | Device communication settings                                |
+| java-vm                    | Control of the NCS Java VM                                   |
+| nacm                       | Access control                                               |
+| packages                   | Installed packages                                           |
+| python-vm                  | Control of the NCS Python VM                                 |
+| services                   | Global settings for services, (the services themselves might be augmented) |
+| session                    | Global default CLI session parameters                        |
+| snmp                       | Top-level container for SNMP related configuration and status objects |
+| snmp-notification-receiver | Configure reception of SNMP notifications                    |
+| software                   | Software management                                          |
+| ssh                        | Global SSH connection configuration                          |
+
+
+
+
 
 #### 4. How Backup and Restore (File system)
 
