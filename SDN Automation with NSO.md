@@ -1629,6 +1629,45 @@ To switch back to a previous good state or restore a backup, it's necessary to p
 
 ## Troubleshooting
 
+##### Installation Problems
+
+During installation the program gives error messages as:
+
+```
+tar: Skipping to next header
+gzip: stdin: invalid compressed data--format violated
+```
+
+This happens if the installation program has been damaged, most likely because it has been downloaded in **'ascii'** mode.
+
+To resolve this problem, remove the installation directory. Download a new copy of NSO from servers. And make sure use binary transfer mode every step of the way.
+
+##### Running Problems 
+
+Sending NETCONF commands and queries with 'netconf-console' fails. The error message is below:
+
+**You must install the python ssh implementation paramiko in order to use ssh.**
+
+This occours because Netconf-console command is implemented using the Python and depends on the python SSH implementation Paramiko.
+
+To resolve this Install Paramiko (and pycrypto, if necessary) using the standard installation of the OS used.
+
+**Note**: A workaround is to use 'netconf-console-tcp'. It uses TCP instead of SSH and doesn't require Paramiko or Pycrypto. Consider that TCP traffic is not encrypted.
+
+##### General Troubleshooting Strategies
+
+In case of problems during starting or running, take note these troubleshooting tips:
+
+1. Transcript all commands, responses and shell scripts used.
+2. Save log files: 'devel.log', 'ncs.log', 'audit.log' and ;ncserr.log'. If you are working with your own system, make sure the log files are enabled in ncs.conf.
+3. Run **ncs --status**, to save status information available.
+4. Run **ncs --check-callbacks**, to verify if **"Data Provider"** works for all possible data items.
+5. Run **ncs --debug-dump mydump1**, to create a **"debug dump"**. It contains a lot of status information (including a full ncs --status report) and some internal state information.
+6. To catch certain types of problems, especially relating to system start and configuration, the operating system's **"system call trace"** can be invaluable. This tool is called strace/ktrace/truss depending of the OS.
+   - linux: **strace -f -o mylog1.strace -s 1024 ncs ...**
+   - BSD: **ktrace -ad -f mylog1.ktrace ncs** and **kdump -f mylog1.ktrace > mylog1.kdump**
+   - Solaris: **truss -f -o mylog1.truss ncs ...**
+
 ## Disaster Management
 
 # NSO Admin CLI
