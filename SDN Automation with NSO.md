@@ -1609,11 +1609,27 @@ Dynamic config can be made through the NSO northbound interfaces manipulating YA
 | software                   | Software management                                          |
 | ssh                        | Global SSH connection configuration                          |
 
-
-
-
-
 #### 4. How Backup and Restore (File system)
+
+All elements of the NSO, can be **Backed Up** and **Restored** with standard file system backup procedures.
+
+In a "system install" of NSO, the most convenient way to do backup and restore is to use the **ncs-backup** command. This backs up the database (CDB) files, state files, config files and rollback files from the installation directory. 
+
+To switch back to a previous good state or restore a backup, it's necessary to perform the next three steps:
+
+1. Stop NSO: \# **/etc/init.d/ncs stop**
+2. Restore the backup: \# **ncs-backup --restore** --> Select the backup to be restored from the available list of backups; **The configuration and database with run-time statefiles are restored in /etc/ncs and /var/opt/ncs.**
+3. Start NSO: \# **/etc/init.d/ncs start**
+
+#### 5. Database Management 
+
+
+
+## NSO Package Overview
+
+## Troubleshooting
+
+## Disaster Management
 
 # NSO Admin CLI
 
