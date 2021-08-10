@@ -1649,7 +1649,41 @@ For more information about warnings triggered please read Chapter 5, *L*oading P
 
 #### Managing Packages
 
+NSO has the possibility to configure remote software repositories from which packages can be retrieved. 
 
+The **/software/repository** list allows for configuration of one or more remote repositories.
+
+**Example 3** shows how to configure the Tail-f delivery server:
+
+```
+
+admin@ncs(config)# software repository tail-f
+Value for 'url' (<string>): https://support.tail-f.com/delivery 
+admin@ncs(config-repository-tail-f)# user name 
+admin@ncs(config-repository-tail-f)# password
+(<AES encrypted string>): ******* 
+admin@ncs(config-repository-tail-f)# commit
+Commit complete.
+
+```
+
+The following are the **Actions** provided to list, fetch, install or deinstall packages:
+
+• **software packages list [...]**: List local packages, categorized into *loaded*, *installed*, and *installable*.
+
+• **software packages fetch package-from-file** **file**: Fetch a package by copying it from the file system, making it *installable*.
+
+• **software packages install package** **package-name** **[...]**: Install a package, making it available for loading via the **packages reload** action, or via a system restart with package reload.
+
+• **software packages deinstall package** **package-name**: Deinstall a package, i.e. remove it from the set of packages available for loading.
+
+• **software repository** **name** **packages list [...]**: List packages available in the repository identified by name. The list can be filtered via the name-pattern option.
+
+• **software repository** **name** **packages fetch package** **package-name**: Fetch a package from the repository identified by name, making it *installable*.
+
+There is also an **upload** action that can be used via NETCONF or REST to upload a package from the local host to the NSO host, making it *installable* there.
+
+**Important Note**: It is not feasible to use in the CLI or Web UI, since the actual package file contents is a parameter for the action. It is also not suitable for very large (more than a few megabytes) packages, since the processing of action parameters is not designed to deal with very large values, and there is a significant memory overhead in the processing of such values.
 
 ## Troubleshooting
 
