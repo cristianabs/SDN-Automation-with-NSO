@@ -1659,7 +1659,7 @@ To resolve this Install Paramiko (and pycrypto, if necessary) using the standard
 In case of problems during starting or running, take note these troubleshooting tips:
 
 1. Transcript all commands, responses and shell scripts used.
-2. Save log files: 'devel.log', 'ncs.log', 'audit.log' and ;ncserr.log'. If you are working with your own system, make sure the log files are enabled in ncs.conf.
+2. Save log files: 'devel.log', 'ncs.log', 'audit.log' and 'ncserr.log'. If you are working with your own system, make sure the log files are enabled in ncs.conf.
 3. Run **ncs --status**, to save status information available.
 4. Run **ncs --check-callbacks**, to verify if **"Data Provider"** works for all possible data items.
 5. Run **ncs --debug-dump mydump1**, to create a **"debug dump"**. It contains a lot of status information (including a full ncs --status report) and some internal state information.
@@ -1669,6 +1669,8 @@ In case of problems during starting or running, take note these troubleshooting 
    - Solaris: **truss -f -o mylog1.truss ncs ...**
 
 ## Disaster Management
+
+
 
 # NSO Admin CLI
 
