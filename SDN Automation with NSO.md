@@ -1621,11 +1621,35 @@ To switch back to a previous good state or restore a backup, it's necessary to p
 2. Restore the backup: \# **ncs-backup --restore** --> Select the backup to be restored from the available list of backups; **The configuration and database with run-time statefiles are restored in /etc/ncs and /var/opt/ncs.**
 3. Start NSO: \# **/etc/init.d/ncs start**
 
-#### 5. Database Management 
-
-
-
 ## NSO Package Overview
+
+A package is basically a directory of files with a fixed file structure, or a tar archive with the same directory layout. A package consists of code, YANG modules, etc., that are needed in order to add an application or function to NSO. 
+
+**Note**: All user code must be part of a package to run in NSO.
+
+At start NSO searches and copies the packages to a private directory tree in the directory defined by the **/ncs-config/state-dir** parameter in **ncs.conf**, and loads and starts all the packages found.
+
+#### Loading Packages
+
+To add or update (If the package changes include modified, added, or deleted) **Packages**,  can be made via the reload action - from the NSO CLI: **packages reload**
+
+This action makes that NSO copy all packages found in the load path to a temporary version of its private directory, and load the packages from this directory. 
+
+- When loading is successful, this temporary directory will be made permanent, otherwise the temporary directory is removed and NSO continues to use the previous version of the packages. 
+
+**Note**: Always update the version in the load path, and request that NSO does the reload via **packages reload** command.
+
+Its recommended to run the command adding the **max-wait-time** and **timeout-action** parameters, to prevent fail reload operation or upgrade canceling action. 
+
+Example: **packages reload max-wait-time 30 timeout-action kill** --> to wait for up tp 30 seconds, by default these parameters are 10 and fail.
+
+Some warnings will be triggered when reload NSO Packages, if a warning has been triggered it is a strong recommendation to fix the root cause. If all of the warnings are intended, it is possible to proceed with "packages reload force" command.
+
+For more information about warnings triggered please read Chapter 5, *L*oading Packages in *NSO 5.2 Administration Guide*.
+
+#### Managing Packages
+
+
 
 ## Troubleshooting
 
