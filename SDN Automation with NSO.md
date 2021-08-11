@@ -1728,7 +1728,45 @@ In case of problems during starting or running, take note these troubleshooting 
 
 ## Disaster Management
 
+There are different disaster scenarios described below:
 
+1. **NSO fails to start**
+
+   When NSO starts and fails to initialize, the following exit codes can occur:
+
+   - Exit codes *1* and *19* mean that an internal error has occurred. A text message should be in the logs, or if the error occurred at startup before logging had been activated, on standard error (standard output if NSO was started with --foreground --verbose). 
+
+   - Exit codes *2* and *3* are only used for the ncs "control commands", and mean that the command failed due to timeout. Code *2* is used when the initial connect to NSO didn't succeed within 5 seconds (or the TryTime if given), while code *3* means that the NSO daemon did not complete the command within the time given by the --timeout option.
+
+   - Exit code *10* means that one of the init files in the CDB directory was faulty in some way. Further information in the log.
+
+   - Exit code *11* means that the CDB configuration was changed in an unsupported way. This will only happen when an existing database is detected, which was created with another configuration than the current in ncs.conf.
+
+   - Exit code *13* means that the schema change caused an upgrade, but for some reason the upgrade failed. Details are in the log. The way to recover from this situation is either to correct the problem or to re-install the old schema (fxs) files.
+
+   - Exit code *14* means that the schema change caused an upgrade, but for some reason the upgrade failed, corrupting the database in the process. This is rare and usually caused by a bug. To recover, either start from an empty database with the new schema, or re-install the old schema files and apply a backup.
+
+   - Exit code *15* means that A.cdb or C.cdb is corrupt in a non-recoverable way. Remove the files and re-start using a backup or init files.
+
+   - Exit code *20* means that NSO failed to bind a socket.
+
+   - Exit code *21* means that some NSO configuration file is faulty. More information in the logs.
+
+   - Exit code *22* indicates a NSO installation related problem, e.g. that the user does not have read access
+
+     to some library files, or that some file is missing.
+
+   If NSO is stopped, files A.cdb, C.cdb, O.cdb and S can simply be copied, and the copy is then a full backup of CDB.
+
+2. **NSO failure after startup**
+   - Out of memory: If NSO is unable to allocate memory, it will exit by calling *abort(3)*. This will generate an exit code as for reception of the SIGABRT signal - e.g. if NSO is started from a shell script, it will see 134 as exit code (128 + the signal number).
+   - Out of file descriptors for *accept(2)*: If NSO fails to accept a TCP connection due to lack of file descriptors, it will log this and then exit with code 25. To avoid this problem, make sure that the process and system-wide file descriptor limits are set high enough, and if needed configure session limits in ncs.conf.
+
+3. **Transaction commit failure**
+
+   When NSO considers the configuration to be in a inconsistent state, operations will continue. It is still possible to use NETCONF, the CLI and all other northbound management agents.
+
+   The MAAPI API has two interface functions which can be used to set and retrieve the consistency status. This API can thus be used to manually reset the consistency state. Apart from this, the only way to reset the state to a consistent state is by reloading the entire configuration.
 
 # NSO Admin CLI
 
