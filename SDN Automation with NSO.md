@@ -1514,15 +1514,11 @@ The key features of NSO that comes into play includes:
 
 **Service Manager** makes it possible for an operator to manage high-level aspects of the network that are not supported by the devices directly, or is supported in a cumbersome way. Following Service Manager challenges are described:
 
-• Transaction-safe activation of services across different multi-vendor devices.
-
-• What-if scenarios, (dry-run), showing the effects on the network for a service creation/change.
-
-• Maintaining relationships between services and corresponding device configurations and vice versa. • Modeling of services
-
-• Short development and turn-around time for new services.
-
-• Mapping the service model to device models.
+- Transaction-safe activation of services across different multi-vendor devices.
+- What-if scenarios, (dry-run), showing the effects on the network for a service creation/change.
+- Maintaining relationships between services and corresponding device configurations and vice versa. • Modeling of services
+- Short development and turn-around time for new services.
+- Mapping the service model to device models.
 
 **Network Element Drivers (NEDs)** are used to communicate with devices and are modeled in a data-model using the YANG data modelling language.
 
