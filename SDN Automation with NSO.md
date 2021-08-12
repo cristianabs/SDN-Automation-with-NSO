@@ -36,7 +36,7 @@
 4. Troubleshooting
 5. Disaster Management
 
-### NSO Admin CLI
+### NSO System User
 
 1. NSO CLI
 2. Device Manager
@@ -1782,26 +1782,20 @@ There are different disaster scenarios described below:
 
    The MAAPI API has two interface functions which can be used to set and retrieve the consistency status. This API can thus be used to manually reset the consistency state. Apart from this, the only way to reset the state to a consistent state is by reloading the entire configuration.
 
-# NSO Admin CLI
+# NSO System User
 
+## NSO CLI
 
+## Device Manager
 
-## Architecture
+## SSH Key Management
 
+## Network Services
 
+## Alarm Manager
 
-## Python VM
+## Web User Interface
 
-## Troubleshooting
-
-## NBI:  Yang Model
-
-## SBI: NED Component
-
-## Subscriptions
-
-## APIs (Java & Py)
-
-## Service Packages
+## Network Simulator
 
 # NSO Developers
