@@ -1502,11 +1502,25 @@ The key features of NSO that comes into play includes:
 
 **NSO** has two main layers that serve different purposes but are tightly integrated with a transactional engine and database.
 
-**Device Manager** manage device configurations in a transactional manner. It supports features like fine-grained configuration commands, bidirectional device configuration synchronization, device groups and templates, and compliance reporting.
+**Device Manager** manage device configurations in a transactional manner. It supports features like fine-grained configuration commands, bidirectional device configuration synchronization, device groups and templates, and compliance reporting. Following Device Manager overall features are described:
 
-**Service Manager** makes it possible for an operator to manage high-level aspects of the network that are not supported by the devices directly, or is supported in a cumbersome way. 
+- Deploy configuration changes to multiple devices in a fail-safe way using distributed transactions.
+- Validate the integrity of configurations before deploying to the network.
+- Apply configuration changes to named device groups.
+- Apply templates (with variables) to named device groups.
+- Easily roll back changes, if needed.
+- Configuration audits: Check if device configurations are in synch with the NSO database. If they are not, what is the diff?
+- Synchronize the NSO database and the configurations on devices, in case they are not in synch. This can be done in either direction (import the diff to the NSO database or deploy the diff on devices).
 
-Network Element Drivers (NEDs) are used to communicate with devices and are modeled in a data-model using the YANG data modelling language.
+**Service Manager** makes it possible for an operator to manage high-level aspects of the network that are not supported by the devices directly, or is supported in a cumbersome way. Following Service Manager challenges are described:
+
+• Transaction-safe activation of services across different multi-vendor devices.
+ • What-if scenarios, (dry-run), showing the effects on the network for a service creation/change.
+ • Maintaining relationships between services and corresponding device configurations and vice versa. • Modeling of services
+ • Short development and turn-around time for new services.
+ • Mapping the service model to device models.
+
+**Network Element Drivers (NEDs)** are used to communicate with devices and are modeled in a data-model using the YANG data modelling language.
 
 NSO uses a dedicated built-in storage Configuration Database (CDB) for all configuration data keeping the CDB in sync with the real network device configurations.
 
@@ -1769,5 +1783,25 @@ There are different disaster scenarios described below:
    The MAAPI API has two interface functions which can be used to set and retrieve the consistency status. This API can thus be used to manually reset the consistency state. Apart from this, the only way to reset the state to a consistent state is by reloading the entire configuration.
 
 # NSO Admin CLI
+
+
+
+## Architecture
+
+
+
+## Python VM
+
+## Troubleshooting
+
+## NBI:  Yang Model
+
+## SBI: NED Component
+
+## Subscriptions
+
+## APIs (Java & Py)
+
+## Service Packages
 
 # NSO Developers
