@@ -1786,6 +1786,21 @@ There are different disaster scenarios described below:
 
 ## NSO CLI
 
+The NSO CLI (command line interface) provides a unified CLI towards the complete network. 
+
+The NSO CLI is a northbound interface to the NSO representation of the network devices and network services. 
+
+Although the network might be a mix of vendors and device interfaces with different CLI flavors, NSO provides ***one*** northbound CLI.
+
+**Note**: Do not confuse with a cut-through CLI that reaches the devices directly. 
+
+NSO CLI has two display data modes:
+
+- Operational Mode: Shows live values from the devices and any operational data stored in the CDB.
+- Configuration Mode: Displays network configuration data from the NSO configuration CDB.
+
+**Show commands displays different data in those modes.**
+
 ## Device Manager
 
 ## SSH Key Management
