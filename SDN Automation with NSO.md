@@ -1823,7 +1823,7 @@ service instance into the resulting commands to devices in the network.
 The input parameters are given from a northbound interface to NSO or 
 a network engineer using any of the NSO User Interfaces such as the NSO CLI.
 
-![Cisco-NSO-Logical-Architecture](/images/NSO_Package_Structure.png)
+![Cisco-NSO-Logical-Architecture](images/NSO_Package_Structure.png)
 
 Who writes the NBI and SBI models?
 
