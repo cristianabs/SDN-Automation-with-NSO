@@ -485,13 +485,14 @@ Is the version-control method where users copy files into another directory (per
 
 These systems have a single server that contains all the versioned files, and a number of clients that check out files from that central place. This setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents.
 
-<p align="center"><img src="images/centralizedVCS.png" alt="centralizedVCS" width="400" align="center"/></p>
+
+![centralizedVCS](images/centralizedVCS.png){ width=50% }
 
 ##### Distributed Version Control Systems
 
 In a DVCS, clients don’t just check out the latest snapshot of the files; rather, they fully mirror the repository, including its full history. Thus, if any server dies, and these systems were collaborating via that server, any of the client repositories can be copied back up to the server to restore it. Every clone is really a full backup of all the data.
 
-<p align="center"><img src="images/distributedVCS.png" alt="distributedVCS" width="400" align="center"/></p>
+![distributedVCS](images/distributedVCS.png){ width=50% }
 
 ##### GIT
 
@@ -508,7 +509,7 @@ Is an open source ([git-scm.com](https://git-scm.com/)) Distributed Version Cont
 
 When commiting changes to version controlled **files**, Git stores **full copies** of all the changed files. It also stores a **tree** which contains links to all the changed files and previously-committed-unchanged-files in the current commit. Git computes a SHA1 hash of all stored files, trees and commits, and then uses the commit hashes to uniquely refer to individual commits. By computing and storing these hashes, git can detect changes to files and assure that the files retrieved from the repository are exactly as they were when committed to the repository.
 
-<p align="center"><img src="images/GitStructure.png" alt="GitStructure" width="500" align="center"/></p>
+![GitStructure](images/GitStructure.png){ width=50% }
 
 ## APIs and OpenAPI
 
@@ -542,7 +543,7 @@ The advantages of **OpenAPI** are:
 
 The benefits of **OpenAPI** are:
 
-<p align="center"><img src="images/openapistructure.png" alt="openapi structure" width="600" align="center"/></p>
+![openapistructure](images/openapistructure.png){ width=50% }
 
 ## YANG, YAML, JSON (Add XML)
 
