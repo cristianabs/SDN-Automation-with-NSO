@@ -1814,3 +1814,69 @@ NSO CLI has two display data modes:
 ## Network Simulator
 
 # NSO Developers
+
+![Cisco-NSO-Logical-Architecture](/images/NSO_Package_Structure.png)
+
+Who writes the NBI and SBI models?
+
+- Developing the service model is part of developing the service
+  application and is covered later in this chapter.
+
+- Every device NED comes with a corresponding device YANG model. This
+  model has been designed by the NED developer to capture the
+  configuration data that is supported by the device. This means that a
+  service application has two primary.
+
+## Creating an NSO Service Application
+
+1. Create a service package: 
+`````python cd ncs-run/packages
+ncs-make-package --service-skeleton python <package-name> 
+`````
+
+2. Edit the skeleton YANG service model in the generated package. Move
+the YANG source file should be stored in 
+
+````less PACKAGE-NAME/src/yang
+````
+
+The two lines of uses ncs:service-data and ncs:servicepoint "attribute"
+tells NSO that this is a service.
+
+````python list vpn-node { key "vpn-node-id ne-id";
+
+// Ahi que vamos uses ncs:service-data; ncs:servicepoint
+   l3vpn-ntw-vpn-node-servicepoint;
+// Fin addendum
+
+````
+
+3. Now build the service model. 
+````
+pyhton cd <package-name>/src make
+````
+
+A nice property of NSO is that already at this point you can load the
+service model into NSO and try if it works well in the CLI etc. Nothing
+will happen to the devices since the mapping is not defined yet. This
+is normally the way to iterate a model; load it into NSO, test the CLI
+towards the network engineers, make changes, reload it into NSO etc.
+
+4. Try the service model in the NSO CLI. In order to have NSO to load
+the new package including the service model do: 
+
+````pyhton admin@ncs#
+packages reload 
+````
+
+5. Create the XML templates and move it to the template folder of the
+package: 
+````
+pyhton cd <package-name>/tamplate 
+````
+
+6. If this template is a template without any Java code make sure the
+service-point name in the YANG service model has a corresponding
+service-point in the XML file. Again this is explained in detail
+later.
+
