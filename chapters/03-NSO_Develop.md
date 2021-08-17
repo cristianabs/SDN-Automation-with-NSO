@@ -21,6 +21,26 @@ Who writes the NBI and SBI models?
   configuration data that is supported by the device. This means that a
   service application has two primary.
 
+
+
+>### NED (Network Element Driver) 
+>
+>Is the adaptation layer between the XML representation of the network configuration contained inside NSO and the wire protocol between NSO and managed devices. 
+>
+>**SNPM**: Devices can be managed automatically, by supplying NSO with the MIBs for the device, with some additional declarative annotations. 
+>
+>**CLI**: Devices can be managed by writing YANG models describing the data in the CLI, and a relatively thin layer of Java code to handle the communication to the devices. **The key point though, is that the Cisco CLI NED Java programmer doesn't have to understand and parse the structure of the CLI, this is entirely done by the NSO CLI engine.**
+>
+>**Generic**: Devices can be managed by writing a required Java program to translate operations on the NSO XML tree into configuration operations towards the device. (this may be more complicated)
+>
+>![cisco-ned-architecture](images/cisco-ned-architecture.png)
+>
+>
+>
+>
+
+
+
 ## Creating an NSO Service Application
 
 1. Create a service package: 
