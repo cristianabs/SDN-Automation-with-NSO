@@ -1903,7 +1903,8 @@ class Main(ncs.application.Application):
         # Service callbacks require a registration for a 'service point',
         # as specified in the corresponding data model.
         #
-        self.register_service('l3vpn-ntw-site-network-access-servicepoint', L3VPNSiteNetworkAccess)
+        self.register_service('l3vpn-ntw-site-network-access-servicepoint', 
+        L3VPNSiteNetworkAccess)
         self.register_service('l3vpn-ntw-vpn-node-servicepoint', L3VPN_VPNNode)
 
 ````
