@@ -77,7 +77,7 @@ They are also used to communicate with various components of a network through s
 - Northbound APIs
 - Southbound APIs. 
 
-<p align="center"><img src="images/APIs Introduction.png" alt="APIs Introduction" width="300"/></p>
+![APIs Introduction](images/APIs Introduction.png){ width=50% }
 
 
 ### Introduction
@@ -478,8 +478,8 @@ Version Control System (VCS)  allows you to revert selected files back to a prev
 Is the version-control method where users copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
 
 
+![localVCS](images/localVCS.png){ width=50% }
 
-<p align="center"><img src="images/localVCS.png" alt="localVCS" width="350" align="center"/></p>
 
 ##### Centralized Version Control System
 
