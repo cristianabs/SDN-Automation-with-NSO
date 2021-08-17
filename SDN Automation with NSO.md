@@ -1815,6 +1815,14 @@ NSO CLI has two display data modes:
 
 # NSO Developers
 
+This section describes how to develop a service application. 
+
+A service application maps input parameters to create, modify, and delete a
+service instance into the resulting commands to devices in the network. 
+
+The input parameters are given from a northbound interface to NSO or 
+a network engineer using any of the NSO User Interfaces such as the NSO CLI.
+
 ![Cisco-NSO-Logical-Architecture](/images/NSO_Package_Structure.png)
 
 Who writes the NBI and SBI models?
@@ -1830,25 +1838,27 @@ Who writes the NBI and SBI models?
 ## Creating an NSO Service Application
 
 1. Create a service package: 
-`````python cd ncs-run/packages
+`````python 
+cd ncs-run/packages
 ncs-make-package --service-skeleton python <package-name> 
 `````
 
 2. Edit the skeleton YANG service model in the generated package. Move
 the YANG source file should be stored in 
 
-````less PACKAGE-NAME/src/yang
+````less 
+PACKAGE-NAME/src/yang
 ````
 
 The two lines of uses ncs:service-data and ncs:servicepoint "attribute"
 tells NSO that this is a service.
 
-````python list vpn-node { key "vpn-node-id ne-id";
+````python 
+list vpn-node { key "vpn-node-id ne-id";
 
-// Ahi que vamos uses ncs:service-data; ncs:servicepoint
-   l3vpn-ntw-vpn-node-servicepoint;
-// Fin addendum
-
+    uses ncs:service-data; 
+    ncs:servicepoint l3vpn-ntw-vpn-node-servicepoint;
+}
 ````
 
 3. Now build the service model. 
@@ -1865,7 +1875,8 @@ towards the network engineers, make changes, reload it into NSO etc.
 4. Try the service model in the NSO CLI. In order to have NSO to load
 the new package including the service model do: 
 
-````pyhton admin@ncs#
+````pyhton 
+admin@ncs#
 packages reload 
 ````
 
