@@ -75,7 +75,7 @@ APIs are mechanisms used to communicate with applications and other software.
 They are also used to communicate with various components of a network through software. A developer can use APIs to configure or monitor specific components of a network. Although there are multiple different types of APIs, this chapter focuses on two of the most common APIs: 
 
 - Northbound APIs
-- Southbound APIs. 
+- Southbound APIs.  
 
 ![APIs Introduction](images/APIs Introduction.png){ width=50% }
 
