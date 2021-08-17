@@ -1886,8 +1886,24 @@ package:
 pyhton cd <package-name>/tamplate 
 ````
 
-6. If this template is a template without any Java code make sure the
-service-point name in the YANG service model has a corresponding
-service-point in the XML file. Again this is explained in detail
-later.
+6. Make sure the service-point name in the YANG service model has a 
+corresponding service-point in the XML file or in the main python file. 
 
+````pyhton 
+from ncs.application import Service
+from ncs.dp import Action
+
+
+class Main(ncs.application.Application):
+    def setup(self):
+        # The application class sets up logging for us. It is accessible
+        # through 'self.log' and is a ncs.log.Log instance.
+        self.log.info('Main RUNNING')
+
+        # Service callbacks require a registration for a 'service point',
+        # as specified in the corresponding data model.
+        #
+        self.register_service('l3vpn-ntw-site-network-access-servicepoint', L3VPNSiteNetworkAccess)
+        self.register_service('l3vpn-ntw-vpn-node-servicepoint', L3VPN_VPNNode)
+
+````
