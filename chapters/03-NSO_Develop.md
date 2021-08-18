@@ -24,14 +24,6 @@ Next two main layers are described:
 
 The main parts of a service package is a YANG Service Model and a mapping definition towards the desired configurations. **The Service Manager supports the full life-cycle for a service.**
 
-A dedicated built-in storage (Configuration DataBase CDB) has the next advantages compared with external storage:
-
-- A solid model on how to handle configuration data in network devices, including a good update subscription mechanism.
-- A TCP based API whereby it is possible to read and subscribe to changes to the network remotely.
-- Fast lightweight database access. CDB by default keeps the entire configuration in RAM as well as on disk.
-- Ease of use. CDB is already integrated into NSO, the database is lightweight and has no maintenance needs. Writing instrumentation functions to access data is easy.
-- Automatic support for upgrade and downgrade of configuration data. 
-
 ## Python VM
 
 ## Troubleshooting
