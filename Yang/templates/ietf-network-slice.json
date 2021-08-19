@@ -1,0 +1,140 @@
+{
+  "ietf-network-slice:network-slice": [{
+    "ns-id": "Huawei-Network",
+    "ns-description": "5G Movistar",
+    "customer-name": ["5G-Movistar"],
+    "ns-connectivity-type": "ietf-network-slice:any-to-any",
+    "slo-sle-policy": {
+      "policy-description": "5G-Movistar",
+      "ns-metric-bounds": {
+        "ns-metric-bound": [{
+          "metric-type": "ietf-network-slice:ns-slo-one-way-latency",
+          "metric-unit": "miliseconds",
+          "value-description": "Max One way Latency",
+          "bound": "120"
+        }]
+      },
+      "isolation": "ietf-network-slice:ns-isolation-shared",
+      "mtu": 1512
+    },
+    "ns-endpoints": {
+      "ns-endpoint": [{
+          "ep-id": "R1",
+          "ep-role": "ietf-network-slice:any-to-any-role",
+          "node-id": "10.1.1.1",
+          "ep-ip": "10.1.1.1",
+          "ep-network-access-points": {
+            "ep-network-access-point": [{
+                "network-access-id": "212",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "14",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "12",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "6",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              }
+            ]
+          }
+        },
+        {
+          "ep-id": "10.1.1.2",
+          "ep-role": "ietf-network-slice:any-to-any-role",
+          "node-id": "10.1.1.2",
+          "ep-ip": "10.1.1.2",
+          "ep-network-access-points": {
+            "ep-network-access-point": [{
+                "network-access-id": "212",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "12",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "2",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "22",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              }
+            ]
+          }
+        },
+        {
+          "ep-id": "10.1.1.3",
+          "ep-role": "ietf-network-slice:any-to-any-role",
+          "node-id": "10.1.1.3",
+          "ep-ip": "10.1.1.3",
+          "ep-network-access-points": {
+            "ep-network-access-point": [{
+                "network-access-id": "212",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "12",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "22",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "8",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "16",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              }
+            ]
+          }
+        },
+        {
+          "ep-id": "10.1.1.4",
+          "ep-role": "ietf-network-slice:any-to-any-role",
+          "node-id": "10.1.1.4",
+          "ep-ip": "10.1.1.4",
+          "ep-network-access-points": {
+            "ep-network-access-point": [{
+                "network-access-id": "212",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "12",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              },
+              {
+                "network-access-id": "16",
+                "network-access-tp-id": "1/1/1",
+                "mtu": 1512
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }]
+}

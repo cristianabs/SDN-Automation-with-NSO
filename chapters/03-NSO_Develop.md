@@ -40,8 +40,6 @@ The main parts of a service package is a YANG Service Model and a mapping defini
 
 ## Service Application Development
 
-
-
 This section describes how to develop a service application. 
 
 A service application maps input parameters to create, modify, and delete a
@@ -70,6 +68,21 @@ cd ncs-run/packages
 ncs-make-package --service-skeleton python <package-name> 
 `````
 
+````
+ncs-make-package --service-skeleton python iFusion-slice
+````
+
+The yang file can be complied inside the NSO using pyang. Some error can appear, so the sentences 'yang-version' and 'reference' in imported files should be removed from Yang.
+
+-   ietf-network-slice@2021-07-20.yang:2: error: bad value "1.1" (should be version)
+-   ietf-network-slice@2021-07-20.yang:9: error: unexpected keyword "reference"
+-   ietf-network-slice@2021-07-20.yang:14: error: unexpected keyword "reference"
+-   ietf-network-slice@2021-07-20.yang:19: error: unexpected keyword "reference"
+
+
+chmod 777 ietf-network-slice@2021-07-20.yang 
+
+
 2. Edit the skeleton YANG service model in the generated package. Move the YANG source file that should be stored in:
 
 ````less 
@@ -78,7 +91,20 @@ PACKAGE-NAME/src/yang
 
 The two ***"uses"*** lines ncs:service-data and ncs:servicepoint "attribute" tells NSO that this is a service.
 
+Two additional models should be added in the main yang file: 
 ````python 
+  import tailf-common {
+    prefix tailf;
+  }
+  
+  import tailf-ncs {
+    prefix ncs;
+  }
+````
+
+Once those models were imported, the service points can be added:
+
+````python
 list vpn-node { key "vpn-node-id ne-id";
     uses ncs:service-data; 
     ncs:servicepoint l3vpn-ntw-vpn-node-servicepoint;
@@ -86,15 +112,26 @@ list vpn-node { key "vpn-node-id ne-id";
 ````
 
 3. Now build the service model. 
+````pyhton 
+cd <package-name>/src make
 ````
-pyhton cd <package-name>/src make
+
+If additional models are required, the following lines must be change in the 'Makefile':
+
+````pyhton
+## Uncomment and patch the line below if you have a dependency to a NED
+## or to other YANG files
+YANGPATH += ../../<package-name>/src/yang
+YANGPATH += ../../<package-name>/src/yang/import
 ````
+
 
 A nice property of NSO is that already at this point you can load the service model into NSO and try if it works well in the CLI etc. Nothing will happen to the devices since the mapping is not defined yet. This is normally the way to iterate a model; load it into NSO, test the CLI towards the network engineers, make changes, reload it into NSO etc.
 
 4. Try the service model in the NSO CLI. In order to have NSO to load the new package including the service model, do: 
 
 ````pyhton 
+
 admin@ncs#
 packages reload 
 ````
