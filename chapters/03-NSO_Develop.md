@@ -18,7 +18,7 @@ Next two main layers are described:
 >
 >**Generic**: Devices can be managed by writing a required Java program to translate operations on the NSO XML tree into configuration operations towards the device. (this may be more complicated), usually devices that have other proprietary CLIs, devices that can only be configured over other protocols such as REST, Corba, XML-RPC, SOAP, other proprietary XML solutions.
 >
->![cisco-ned-architecture](images/cisco-ned-architecture.png){ width=60% }
+>![cisco-ned-architecture](images/cisco-ned-architecture.png){ width=40% }
 
 **Service Manager**: Configure devices using service-aware applications, each service type is a package that is defined exactly according to the specific requirements. It can be modified and re-loaded into a running system, giving flexibility in the service portfolio. 
 
