@@ -152,6 +152,113 @@ class Service(ncs.application.Application):
 
 ## Service Packages
 
+## Writing a Python background worker for Cisco NSO
+
+In the YANG model servicepoints are used to attach a create callback to a particular subtree in the YANG model. In addition to create servicepoint it also have actionpoints which allows attach python code to YANG actions. Both servicepoint and actionpoint attach to the YANG model and lets code be executed upon external stimuli, either the request to run an action or the change of configuration.
+
+The purpose of the background worker, as an example, will be to increment a counter at a periodic interval. It's simple and not useful on its own but around setting up a worker and so, this will serve as a simple example.
+
+1. Start making a new package of python service skeleton.
+
+`````python 
+ncs-make-package --service-skeleton python
+`````
+
+2. Edit or replace the YANG model to the following. A simple leaf called counter, that is config false (i.e. operational state data).
+
+`````xml
+module bgworker {
+
+  namespace "http://example.com/bgworker";
+  prefix bgworker;
+
+  container bgworker {
+    leaf counter {
+      config false;
+      type uint32;
+      default 0;
+    }
+  }
+}
+`````
+
+**Note**: Set the default value to 0 which means the counter will be 0 each time NCS starts up. Unlike configuration data, state data in NCS is not persisted per default which is why our leaf will go back to a value of 0 each time NCS starts. We could add `tailf:persistent "true"` to the leaf to make it persisted in CDB.
+
+And move the YANG source file that should be stored in:
+
+````less 
+PACKAGE-NAME/src/yang
+````
+
+3. Make package, the normal example skeleton code produced by `ncs-make-package` shows the use of the `setup()`and `teardown()` methods to hook into the start and stop of the Application.
+
+The comment indicates that this is a component thread and runs as a thread in the Python VM.
+
+```python
+# ---------------------------------------------
+# COMPONENT THREAD THAT WILL BE STARTED BY NCS.
+# ---------------------------------------------
+class Main(ncs.application.Application):
+    def setup(self):
+        ...
+```
+
+The modified Python code, to deploy a background worker MUST start another thread from `setup()` method:
+
+```python
+import threading
+import time
+import ncs
+from ncs.application import Service
+
+class BgWorker(threading.Thread):
+    def run(self):
+        while True:
+            print("Hello from background worker")
+            time.sleep(1)
+
+class Main(ncs.application.Application):
+    def setup(self):
+        self.log.info('Main RUNNING')
+        self.bgw = BgWorker()
+        self.bgw.start()
+
+    def teardown(self):
+        self.log.info('Main FINISHED')
+        self.bgw.stop()
+```
+
+**Note**: `ServiceCallbacks` class with its `cb_create()` was deleted since it doesn't need anymore and instead a new thread definition called `BgWorker` was created which is instantiated and started from the `setup()` method of the Application.
+
+4. loading the package by running `request packages reload`
+
+```
+admin@ncs> request packages reload force
+
+>>> System upgrade is starting.
+>>> Sessions in configure mode must exit to operational mode.
+>>> No configuration changes can be performed until upgrade has completed.
+>>> System upgrade has completed successfully.
+reload-result {
+    package bgworker
+    result true
+}
+[ok][2019-07-01 13:43:04]
+admin@ncs>
+```
+
+Running `tail -f ncs-python-vm.log ` will show the printed messages made by the **background worker**
+
+```
+<INFO> 1-Jul-2019::13:43:04.534 nuc ncs[11832]: Started PyVM: <<"bgworker">> , Port=#Port<0.26560> , OSpid="26111"
+<INFO> 1-Jul-2019::13:43:04.535 nuc ncs[11832]: bgworker :: Starting /home/kll/ncs-4.7.4.2/src/ncs/pyapi/ncs_pyvm/startup.py -l info -f ./logs/ncs-python-vm -i bgworker
+<INFO> 1-Jul-2019::13:43:04.595 nuc ncs[11832]: bgworker :: Hello from background worker
+<INFO> 1-Jul-2019::13:43:05.597 nuc ncs[11832]: bgworker :: Hello from background worker
+<INFO> 1-Jul-2019::13:43:06.598 nuc ncs[11832]: bgworker :: Hello from background worker
+<INFO> 1-Jul-2019::13:43:07.599 nuc ncs[11832]: bgworker :: Hello from background worker
+<INFO> 1-Jul-2019::13:43:08.599 nuc ncs[11832]: bgworker :: Hello from background worker
+```
+
 ## Service Application Development
 
 This section describes how to develop a service application. 
