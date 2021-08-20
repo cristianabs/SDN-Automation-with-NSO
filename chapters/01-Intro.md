@@ -16,8 +16,7 @@ They are also used to communicate with various components of a network through s
 - Northbound APIs
 - Southbound APIs. 
 
-![APIs Introduction](images/APIs Introduction.png){ width=50% }
-
+![APIs-Introduction](images/APIs-Introduction.png){ width=50% }
 
 ### Introduction
 
