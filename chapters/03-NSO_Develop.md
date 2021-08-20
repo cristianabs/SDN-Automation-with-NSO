@@ -26,6 +26,120 @@ The main parts of a service package is a YANG Service Model and a mapping defini
 
 ## Python VM
 
+The Python VM does not run on a hypervisor and does not contain a guest operating system. It is a tool that allows programs written in the Python programming language to run on a variety of CPUs.
+
+Similar to Java, Python translates its programs into an intermediate format called bytecode, storing it in a file ready for execution. When the program is executed, the Python VM converts the bytecode into machine code for fast execution.
+
+![Python_VM](images/Python_VM.png)
+
+NSO is able to start one or more Python VMs where Python code in user-supplied packages can be executed.
+
+By default, a Python VM will be started for each Python package that has a python class name defined in its package-meta-data.xml file. In this Python VM the environment variable PYTHONPATH will point to the python directory of the package.
+
+The tailf-ncs-python-vm.yang defines the *python-vm* container which, along with ncs.conf, is the entry point for controlling the NSO Python VM functionality:
+
+`````xml
++--rw python-vm
+	+--rw logging
+	|...
+	|# More data 
+	|...
+	+--rw status
+	|	+--ro start* [node-id]
+	|	|...
+	|	|# More data
+	|	|...
+	|	+--ro current* [node-id
+	|
+	+---x stop
+	|		|..
+	|		|# More data
+	|		|..
+	+---x start
+			|..
+			|# More data
+			|..
+`````
+
+- The *status/start* and *status/current* contains operational data.
+- The *status/start* command will show information about what Python classes, as declared in the package-meta-data.xml file, that where started and whether the outcome was successful or not. 
+- The *status/current* command will show which Python classes that are currently running in a separate thread.
+- The *start* and *stop* actions makes it possible to start and stop a particular Python VM.
+
+#### Structure of the User provided code
+
+The package-meta-data.xml file must contain a *component* of type *application* with a *python-class- name* specified, where the component name (Service Name in the example) is a human readable name of this application component. 
+
+`````xml
+<component>
+<name>Service Name</name> <application>
+<python-class-name>Name.service.Service</python-class-name> </application>
+</component>
+`````
+
+The *python-class-name* should specify the Python class that implements the application entry point. 
+
+**Note**: the application entry point MUST to be specified using Python's dot-notation and should be fully qualified (given the fact that *PYTHONPATH* is pointing to the package python directory).
+
+#### Python package directory structure
+
+Note that directly above the main directory is another directory named as the package (Name) that contains the user code.
+
+`````xml
+packages/ 
++-- {{Name}}/
+	+-- package-meta-data.xml
+	+-- python/
+	| 	+-- {{Name}}/
+	|				+-- __init__.py
+	|				+-- service.py
+	|				+-- _namespaces/
+	|						+-- __init__.py 
+	|						+-- {{Name}}_ns.py
+	+-- src
+			+-- Makefile 
+			+-- yang/
+					+-- {{Name}}.yang
+`````
+
+- The **service.py** is located according to the description above. There is also a **__init__.py** (which is empty) there to make the {{Name}} directory considered a *module* from Python's perspective.
+- The **_namespaces/{{Name}}_ns.py** file. It is generated from the **{{Name}}.yang** model using the **ncsc --emit-python** command and contains constants representing the namespace and the various components of the YANG model, which the User code can import and make use of.
+- The **service.py** file should include a class definition named *Service* which acts as the component's entry point.
+- A Python class specified in the **package-meta-data.xml** file will be started in a Python thread which we call a *component thread*. 
+- The Python class should inherit ***ncs.application.Application*** and should implement the methods ***setup()*** and ***teardown()***.
+
+Example of component class skeleton:
+
+`````python
+import ncs
+
+class Service(ncs.application.Application): 
+	def setup(self):
+	# The application class sets up logging for us. It is accessible 
+	# through 'self.log' and is a ncs.log.Log instance. 
+	self.log.info('Service RUNNING')
+
+	# Service callbacks require a registration for a 'service point', 
+	# as specified in the corresponding data model.
+	self.register_service('{{Name}}-servicepoint', ServiceCallbacks)
+
+	# If we registered any callback(s) above, the Application class
+	# took care of creating a daemon (related to the service/action point).
+
+	# When this setup method is finished, all registrations are 
+	# considered done and the application is 'started'.
+	def teardown(self):
+	# When the application is finished (which would happen if NCS went 
+	# down, packages were reloaded or some error occurred) this teardown 
+	# method will be called.
+	self.log.info('Service FINISHED')
+`````
+
+- The *Service* class will be instantiated by NSO when started or whenever packages are reloaded. 
+- Custom initialization such as registering service- and action callbacks should be done in the *setup()* method. 
+- If any cleanup is needed when NSO finishes or when packages are reloaded it should be placed in the *teardown()* method.
+- The existing log functions are named after the standard Python log levels, thus in the example above the *self.log* object contains the functions *debug,info,warning,error,critical*.
+
 ## Troubleshooting
 
 ## NBI: Yang Model
