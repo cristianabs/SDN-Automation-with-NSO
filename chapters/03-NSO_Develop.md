@@ -152,6 +152,28 @@ class Service(ncs.application.Application):
 
 ## Service Packages
 
+## Service Application Development
+
+This section describes how to develop a service application. 
+
+A service application maps input parameters to create, modify, and delete a
+service instance into the resulting commands to devices in the network. 
+
+The input parameters are given from a northbound interface to NSO or 
+a network engineer using any of the NSO User Interfaces such as the NSO CLI.
+
+![Cisco-NSO-Logical-Architecture](images/NSO_Package_Structure.png)
+
+Who writes the NBI and SBI models?
+
+- Developing the service model is part of developing the service
+  application and is covered later in this chapter.
+
+- Every device NED comes with a corresponding device YANG model. This
+  model has been designed by the NED developer to capture the
+  configuration data that is supported by the device. This means that a
+  service application has two primary.
+
 ## Writing a Python background worker for Cisco NSO
 
 In the YANG model servicepoints are used to attach a create callback to a particular subtree in the YANG model. In addition to create servicepoint it also have actionpoints which allows attach python code to YANG actions. Both servicepoint and actionpoint attach to the YANG model and lets code be executed upon external stimuli, either the request to run an action or the change of configuration.
@@ -258,28 +280,6 @@ Running `tail -f ncs-python-vm.log ` will show the printed messages made by the 
 <INFO> 1-Jul-2019::13:43:07.599 nuc ncs[11832]: bgworker :: Hello from background worker
 <INFO> 1-Jul-2019::13:43:08.599 nuc ncs[11832]: bgworker :: Hello from background worker
 ```
-
-## Service Application Development
-
-This section describes how to develop a service application. 
-
-A service application maps input parameters to create, modify, and delete a
-service instance into the resulting commands to devices in the network. 
-
-The input parameters are given from a northbound interface to NSO or 
-a network engineer using any of the NSO User Interfaces such as the NSO CLI.
-
-![Cisco-NSO-Logical-Architecture](images/NSO_Package_Structure.png)
-
-Who writes the NBI and SBI models?
-
-- Developing the service model is part of developing the service
-  application and is covered later in this chapter.
-
-- Every device NED comes with a corresponding device YANG model. This
-  model has been designed by the NED developer to capture the
-  configuration data that is supported by the device. This means that a
-  service application has two primary.
 
 ## Creating an NSO Service Application
 
