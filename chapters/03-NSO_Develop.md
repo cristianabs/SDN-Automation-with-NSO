@@ -2,7 +2,7 @@
 
 ## Architecture
 
-![NSO-DEV-Architecture](images/NSO-DEV-Architecture.png)
+![NSO-DEV-Architecture](images/NSO-DEV-Architecture.png){ width=100% }
 
 Next two main layers are described:
 
@@ -18,7 +18,7 @@ Next two main layers are described:
 >
 >**Generic**: Devices can be managed by writing a required Java program to translate operations on the NSO XML tree into configuration operations towards the device. (this may be more complicated), usually devices that have other proprietary CLIs, devices that can only be configured over other protocols such as REST, Corba, XML-RPC, SOAP, other proprietary XML solutions.
 >
->![cisco-ned-architecture](images/cisco-ned-architecture.png)
+>![cisco-ned-architecture](images/cisco-ned-architecture.png){ width=60% }
 
 **Service Manager**: Configure devices using service-aware applications, each service type is a package that is defined exactly according to the specific requirements. It can be modified and re-loaded into a running system, giving flexibility in the service portfolio. 
 
@@ -30,7 +30,7 @@ The Python VM does not run on a hypervisor and does not contain a guest operatin
 
 Similar to Java, Python translates its programs into an intermediate format called bytecode, storing it in a file ready for execution. When the program is executed, the Python VM converts the bytecode into machine code for fast execution.
 
-![Python_VM](images/Python_VM.png)
+![Python VM](images/Python_VM.png){ width=20% }
 
 NSO is able to start one or more Python VMs where Python code in user-supplied packages can be executed.
 
