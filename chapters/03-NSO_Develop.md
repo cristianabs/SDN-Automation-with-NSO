@@ -178,7 +178,31 @@ The file layout of a package is:
 							 netsim/
 ```
 
-### 
+The package-meta-data.xml file defines the name of the package as well as one *component*. Let's go through the different parts of the meta data file:
+
+- name - the name of the package. All packages in the system must have unique names.
+
+- package-version - The version of the package. This is for administrative purposes only, NSO
+
+  cannot simultaneously handle two versions of the same package.
+
+- ncs-min-version - which is the oldest known NSO version where this package works.
+
+- required-package - a list of names of other packages that are required for this package to work.
+
+- component - Each package defines zero or more components.
+
+Local-dir is the directory where all .fxs (compiled YANG files) and .ccl (compiled CLI spec files) are located.
+
+Shared-jar is the directory where all jars are located and are reach using the LOAD_SHARED_JARS request for each deployed NSO package (the classes and resources in these jars are globally accessible for all deployed NSO packages).
+
+Private-jar is the directory where all jars are located and are reach using the LOAD_PACKAGE request for each deployed NSO package (these classes and resources will be private to respective NSO package. In addition, classes that are referenced in a component tag in respective NSO package package-meta-data.xml file will be instantiated).
+
+**Note**: By putting code for a specific service in a private jar, NSO can dynamically upgrade the service without affecting any other service.
+
+The optional webui directory contains webui customization files.
+
+
 
 ## Service Application Development
 
