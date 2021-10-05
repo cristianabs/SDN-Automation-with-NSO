@@ -178,6 +178,16 @@ The file layout of a package is:
 							 netsim/
 ```
 
+Local-dir is the directory where all .fxs (compiled YANG files) and .ccl (compiled CLI spec files) are located.
+
+Shared-jar is the directory where all jars are located and are reach using the LOAD_SHARED_JARS request for each deployed NSO package (the classes and resources in these jars are globally accessible for all deployed NSO packages).
+
+Private-jar is the directory where all jars are located and are reach using the LOAD_PACKAGE request for each deployed NSO package (these classes and resources will be private to respective NSO package. In addition, classes that are referenced in a component tag in respective NSO package package-meta-data.xml file will be instantiated).
+
+**Note**: By putting code for a specific service in a private jar, NSO can dynamically upgrade the service without affecting any other service.
+
+The optional webui directory contains webui customization files.
+
 The package-meta-data.xml file defines the name of the package as well as one *component*. Let's go through the different parts of the meta data file:
 
 - name - the name of the package. All packages in the system must have unique names.
@@ -192,17 +202,49 @@ The package-meta-data.xml file defines the name of the package as well as one *c
 
 - component - Each package defines zero or more components.
 
-Local-dir is the directory where all .fxs (compiled YANG files) and .ccl (compiled CLI spec files) are located.
+Each component in a package has a name. The names of all the components must be unique within the package. 
 
-Shared-jar is the directory where all jars are located and are reach using the LOAD_SHARED_JARS request for each deployed NSO package (the classes and resources in these jars are globally accessible for all deployed NSO packages).
+The YANG model for packages contain:
 
-Private-jar is the directory where all jars are located and are reach using the LOAD_PACKAGE request for each deployed NSO package (these classes and resources will be private to respective NSO package. In addition, classes that are referenced in a component tag in respective NSO package package-meta-data.xml file will be instantiated).
+![Component-structure](images/component-structure.png){ width=100% }
 
-**Note**: By putting code for a specific service in a private jar, NSO can dynamically upgrade the service without affecting any other service.
+The mandatory choice that defines a component must be one of ***ned***, ***callback***, ***application*** or ***upgrade***.
 
-The optional webui directory contains webui customization files.
+###### NED Component
 
+A Network Element Driver component is used southbound of NSO to communicate with managed devices. The easiest NED to understand is the NETCONF NED which is built in into NSO.
 
+There are 4 different types of NEDs:
+
+• *netconf* - used for NETCONF enabled devices such as Juniper routers, ConfD powered devices or any device that speaks proper NETCONF and also has YANG models. Plenty of packages in the NSO example collection have NETCONF NED components, for example $NCS_DIR/examples.ncs/getting-started/ developing-with-ncs/0-router-network/packages/router.
+
+• *snmp* - used for SNMP devices.
+ The example $NCS_DIR/examples.ncs/snmp-ned/basic has a
+
+package which has an SNMP NED component.
+ • *cli* - used for CLI devices. The package $NCS_DIR/packages/neds/
+
+cisco-ios is an example of a package that has a CLI NED component. • *generic* - used for generic NED devices. The example $NCS_DIR/
+
+examples.ncs/generic-ned/xmlrpc-device has a package called xml-rpc which defines a NED component of type *generic*
+
+**Note**: A CLI NED and a generic NED component must also come with additional user written Java code, whereas a NETCONF NED and an SNMP NED have no Java code.
+
+###### Callback Component
+
+The *callback* type of component is used for a wide range of callback type Java applications, where one of the most important are the Service Callbacks. 
+
+A package that has a *callback* component usually has some YANG code and then also some Java code that relates to that YANG code. By convention the YANG and the Java code resides in a src directory in the component. When the source of the package is built, any resulting fxs files (compiled YANG files) must reside in the *load-dir* of the package and any resulting Java compilation results must reside in the *shared-jar* and *private-jar* directories.
+
+###### Application Component
+
+Used to cover Java applications that do not fit into the *callback* type. Typically this is functionality that should be running in separate threads and work autonomously.
+
+The example $NCS_DIR/examples.ncs/getting-started/ developing-with-ncs/1-cdb contains three components that are of type *application*. These components must also contain a *java-class-name* element. For application components, that Java class must implement the *ApplicationComponent* Java interface.
+
+###### Upgrade Component
+
+Used to migrate data for packages where the yang model has changed and the automatic cdb upgrade is not sufficient. The upgrade component consists of a java class with a main method that is expected to run one time only.
 
 ## Service Application Development
 
