@@ -144,13 +144,41 @@ class Service(ncs.application.Application):
 
 ## NBI: Yang Model
 
-## SBI: NED Component
-
 ## Subscriptions
 
 ## APIs (Java & Py)
 
 ## Service Packages
+
+A package is basically a directory of files with a fixed file structure. A package consists of code, YANG modules, custom Web UI widgets etc., that are needed in order to add an application or function to NSO. Packages is a controlled way to manage loading and versions of custom applications.
+
+A package is a directory where the package name is the same as the directory name. 
+
+At the toplevel of this directory a file called package-meta-data.xml must exist. 
+
+The structure of that file is defined by the YANG model$NCS_DIR/src/ncs/yang/tailf-ncs-packages.yang. 
+
+A package may also be a tar archive with the same directory layout. The tar archive can be either uncompressed with suffix .tar, or gzip-compressed with suffix .tar.gz or .tgz.
+
+![Package-Model](images/Package_model_UML.png){ width=100% }
+
+Packages are composed of components. The following types of components are defined: NED, Application, and Callback.
+
+The file layout of a package is:
+
+```markdown
+<package-name>/package-meta-data.xml 
+							 load-dir/
+							 shared-jar/ 
+							 private-jar/ 
+							 webui/ 
+							 templates/ 
+							 src/
+							 doc/
+							 netsim/
+```
+
+### 
 
 ## Service Application Development
 
