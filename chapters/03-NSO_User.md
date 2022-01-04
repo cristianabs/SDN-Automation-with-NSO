@@ -82,7 +82,20 @@ The SSH protocol uses public key technology for two distinct purposes:
 
 These two usages are fundamentally independent, i.e. host key verification is done regardless of whether the client authentication is via publickey, password, or some other method. However host key verification is of particular importance when client authentication is done via password, since failure to detect a man-in-the-middle attack in this case will result in the cleartext password being divulged to the attacker.
 
-## Network Services
+## Managing Network Services
+
+NSO can also manage the life-cycle for services like VPNs, BGP peers, ACLs. It is important to understand what is meant by service in this context.
+
+1. NSO abstracts the device specific details. The user only needs to enter attributes relevant to the service.
+2. The service instance has configuration data itself that can be represented and manipulated.
+3. A service instance configuration change is applied to all affected devices.
+
+These are the features NSO uses to support service configuration.
+
+1. *Service Modeling*: network engineers can model the service attributes and the mapping to device configurations. For example, this means that a network engineer can specify at data-model for VPNs with router interfaces, VLAN id, VRF and route distinguisher.
+2. *Service life-cycle*: while less sophisticated configuration management systems can only create an initial service instance in the network they do not support changing or deleting a service instance. With NSO you can at any point in time modify service elements like the VLAN id of a VPN and NSO can generate the corresponding changes to the network devices.
+3. The NSO *service instance* has configuration data that can be represented and manipulated. The service model run-time updates all NSO northbound interfaces so a network engineer can view and manipulate the service instance over CLI, WebUI, REST etc.
+4. NSO maintains *references between service instances and device configuration*. This means that a VPN instance knows exactly which device configurations it created/modified. Every configuration stored in the CDB is mapped to the service instance that created it.
 
 ## Alarm Manager
 
@@ -102,4 +115,17 @@ In order to populate the alarm list there is a dedicated Java API. This API lets
 
 ## Web User Interface
 
-## Network Simulator
+The NSO Web UI consists of a suit of web based applications. Each application has it's own distinct concern, for instance handle configuration, transaction handling, manage devices, manage services or monitor the system. The different applications can be accessed from the application hub, which is shown directly after authentication.
+
+The Web UI is a mix of custom built applications and auto-rendering from the underlying device and service models. The latter gives the benefit that a Web UI is immediately updated when new devices or services are added to the system. So, say you add support for a new device vendor. Without any programming is the NCS Web UI capable of configuring those devices.
+
+All modern web browsers are supported and no plug-ins are required. The interface is a pure JavaScript Client.
+
+The Web UI is available on port 8080 on the NSO server. The port can be changed in the `ncs.conf` file. A NSO user must exist.
+
+More help how to use the Web UI is present in the Web UI applications. The help is located in the user menu, which can be found to the right in the application header.
+
+Take special notice to the Commit Manager application, whenever a transaction has started, the active changes can be inspected and evaluated before they are commited and pushed to the network. The data is saved to NSO datastore and pushed to the network when a user presses "Commit".
+
+Any network-wide change can be picked up as a rollback-file. That rollback can then be applied to undo whatever happened to the network.
+
