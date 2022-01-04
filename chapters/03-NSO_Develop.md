@@ -167,6 +167,64 @@ service again, and finally executes a diff to current configuration. This diff i
 
 ## Troubleshooting
 
+#### History log
+
+In order to find out whether a scheduled task has run successfully or not, the easiest way is to view the history log of the scheduler. It will display the last five runs of the scheduled task.
+
+admin# **show scheduler task sync history | notab** history 2017-11-01T02:00:00.55003+00:00
+
+```
+ duration  "0.15 sec"
+ succeeded true
+history 2017-12-01T02:00:00.549939+00:00
+ duration  "0.09 sec"
+ succeeded true
+history 2017-01-01T02:00:00.550128+00:00
+ duration  "0.01 sec"
+ succeeded false
+ info      "Resource device ce0 doesn't exist"
+```
+
+#### XPath log
+
+Detailed information from the XPath evaluator can be enabled and made available in the xpath log. Add the following snippet to ncs.conf.
+
+```
+<xpathTraceLog> 
+		<enabled>true</enabled> 	
+	<filename>./xpath.trace</filename>
+</xpathTraceLog>
+```
+
+#### Devel Log
+
+Error information is written to the development log. The development log is meant to be used as support while developing the application. It is enabled in ncs.conf:
+
+```
+<developer-log> 
+	<enabled>true</enabled> 
+	<file>
+		<name>./logs/devel.log</name> 
+			<enabled>true</enabled>
+	</file>
+</developer-log> 
+<developer-log-level>trace</developer-log-level>
+```
+
+#### Suspending the Scheduler
+
+While investigating a failure with a scheduled task or performing maintenance on the system, like upgrading, it might be useful to suspend the scheduler temporarily.
+
+```
+admin# scheduler suspend
+```
+
+When ready the scheduler can be resumed. 
+
+```
+admin# scheduler resume
+```
+
 ## Subscriptions
 
 he CDB subscription mechanism allows an external program to be notified when some part of the configuration changes. When receiving a notification it is also possible to iterate through the changes written to CDB. Subscriptions are always towards the running data-store (it is not possible to subscribe to changes to the startup data-store). Subscriptions towards operational data (see the section called “Operational Data in CDB”) kept in CDB are also possible, but the mechanism is slightly different.
