@@ -171,7 +171,51 @@ service again, and finally executes a diff to current configuration. This diff i
 
 ## Subscriptions
 
-## APIs (Java & Py)
+## NSO Python API
+
+NCS Python high level module.
+
+The high-level APIs provided by this module are an abstraction on top of the low-level APIs. This makes them easier to use, improves code readability and development rate for common use cases, such as service and action callbacks.
+
+As an example, the maagic module greatly simplifies the way of accessing data. First it helps in navigating the data model, using standard Python object dot notation, giving very clear and readable code. The context handlers remove the need to close sockets, user sessions and transactions. Finally, by removing the need to know the data types of the leafs, allows you to focus on the program logic.
+
+This top module imports the following modules:
+
+- application – module for implementing packages and services
+- cdb – placeholder for low-level _ncs.cdb items
+- dp – data provider, actions
+- error – placeholder for low-level _ncs.error items
+- events – placeholder for low-level _ncs.events items
+- ha – placeholder for low-level _ncs.ha items
+- log – logging utilities
+- maagic – data access module
+- maapi – MAAPI interface
+- template – module for working with templates
+- service_log – module for doing service logging
+- upgrade – module for writing upgrade components
+
+### Sub-modules
+
+- `ncs.application:`Module for building NCS applications.
+- `ncs.cdb:`CDB high level module.
+- `ncs.childlist:`Internally used classes and functions.
+- `ncs.dp:`Callback module for connecting data providers to ConfD/NCS.
+- `ncs.error`
+- `ncs.events`
+- `ncs.experimental:`Experimental stuff …
+- `ncs.fsm:`Internally used classes and functions …
+- `ncs.ha`
+- `ncs.keypath:`Internally used classes and functions.
+- `ncs.log:`This module provides some logging utilities.
+- `ncs.maagic:`Confd/NCS data access module …
+- `ncs.maapi:`MAAPI high level module …
+- `ncs.ns`
+- `ncs.pool:`Resource Pool
+- `ncs.service_log:`This module provides service logging
+- `ncs.template:`This module implements classes to simplify template processing.
+- `ncs.tm:`Internally used classes and functions.
+- `ncs.upgrade:`Module for NSO upgrade components.
+- `ncs.util:`Utility module, low level abstrations
 
 ## Service Packages
 
