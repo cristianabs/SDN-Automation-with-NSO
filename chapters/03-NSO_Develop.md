@@ -167,9 +167,31 @@ service again, and finally executes a diff to current configuration. This diff i
 
 ## Troubleshooting
 
-## NBI: Yang Model
-
 ## Subscriptions
+
+he CDB subscription mechanism allows an external program to be notified when some part of the configuration changes. When receiving a notification it is also possible to iterate through the changes written to CDB. Subscriptions are always towards the running data-store (it is not possible to subscribe to changes to the startup data-store). Subscriptions towards operational data (see the section called “Operational Data in CDB”) kept in CDB are also possible, but the mechanism is slightly different.
+
+The first thing to do is to inform CDB which paths we want to subscribe to. Registering a path returns a subscription point identifier. This is done by acquiring an subscriber instance by calling CdbSubscription Cdb.newSubscription() method. For the subscriber (or CdbSubscription instance) the paths are registered with the dbSubscription.subscribe() that that returns the actual subscription point identifier. A subscriber can have multiple subscription points, and there can be many different subscribers. Every point is defined through a path - similar to the paths we use for read operations, with the exception that instead of fully instantiated paths to list instances we can selectively use tagpaths.
+
+When a client is done defining subscriptions it should inform NSO that it is ready to receive notifications by calling CdbSubscription.subscribeDone(), after which the subscription socket is ready to be polled.
+
+We can subscribe either to specific leaves, or entire subtrees. Explaining this by example we get:
+
+**/ncs:devices/global-settings/trace**: Subscription to a leaf. Only changes to this leaf will generate a notification.
+
+**/ncs:devices**:  Subscription to the subtree rooted at /ncs:devices. Any changes to this subtree will generate a notification. This includes additions or removals of device instances, as well as changes to already existing device instances.
+
+**/ncs:devices/device{"ex0"}/address**: Subscription to a specific element in a list. A notification will be generated when the device “ex0” changes its ip address.
+
+**/ncs:devices/device/address**:  Subscription to a leaf in a list. A notification will be generated leaf address is changed in *any* device instance.
+
+When adding a subscription point the client must also provide a priority, which is an integer (a smaller number means higher priority). When data in CDB is changed, this change is part of a transaction. A transaction can be initiated by a **commit** operation from the CLI or a **edit-config** operation in NETCONF resulting in the running database being modified. As the last part of the transaction CDB will generate notifications in lock-step priority order. First all subscribers at the lowest numbered priority are handled, once they all have replied and synchronized by calling CdbSubscription.sync() the next set - at the next priority level - is handled by CDB. Not until all subscription points have been acknowledged is the transaction complete. This implies that if the initiator of the transaction was for example a **commit** command in the CLI, the command will hang until notifications have been acknowledged.
+
+Note that even though the notifications are delivered within the transaction it is not possible for a subscriber to reject the changes (since this would break the two-phase commit protocol used by the NSO backplane towards all data-providers).
+
+As a subscriber has read its subscription notifications using CdbSubscription.read() it can iterate through the changes that caused the particular subscription notification using the CdbSubscription.diffIterate() method. It is also possible to start a new read-session to the CdbDBType.CDB_PRE_COMMIT_RUNNING database to read the running database as it was before the pending transaction.
+
+To view registered subscribers use the **ncs --status** command.
 
 ## NSO Python API
 
