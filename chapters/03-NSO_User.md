@@ -53,11 +53,35 @@ The list of base commands available in configure mode is listed below in the "Co
 
 ## Device Manager
 
+
+
 ## SSH Key Management
 
 ## Network Services
 
 ## Alarm Manager
+
+NSO embeds a generic alarm manager. It is used for managing NSO native alarms and can easily be extended with application specific alarms. Alarm sources can be notifications from devices, undesired states on services detected or anything provided via the Java API.
+
+The Alarm Manager has three main components:
+
+- Alarm List
+
+  a list of alarms in NSO. Each list entry represents an alarm state for a specific device, object within the device and an alarm type
+
+- Alarm Model
+
+  for each alarm type, you can configure the mapping to for example X.733 alarm standard parameters that are sent as notifications northbound
+
+- Operator Actions
+
+  actions to set operator states on alarms such as acknowledgement, and also actions to administratively manage the alarm list such as deleting alarms
+
+The alarm manager is accessible over all northbound interfaces. A read-only view including an SNMP alarm table and alarm notifications is available in an SNMP Alarm MIB. This MIB is suitable for integration to SNMP based alarm systems.
+
+In order to populate the alarm list there is a dedicated Java API. This API lets a developer add alarms, change states on alarms etc. A common usage pattern is to use the SNMP notification receiver to map a subset of the device traps into alarms.
+
+![NSO-DEV-Architecture](images/alarm_manager.png){ width=100% }
 
 ## Web User Interface
 
