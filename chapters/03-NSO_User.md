@@ -53,9 +53,34 @@ The list of base commands available in configure mode is listed below in the "Co
 
 ## Device Manager
 
+The NSO device manager is the centre of NSO. The device manager maintains a flat list of all managed devices. NSO keeps the master copy of the configuration for each managed device in CDB. Whenever a configuration change is done to the list of device configuration master copies, the device manager will partition this "network configuration change" into the corresponding changes for the actual managed devices. The device manager passes on the required changes to the NEDs, Network Element Drivers. A NED needs to be installed for every type of device OS, like Cisco IOS NED, Cisco XR NED, Juniper JUNOS NED etc. The NEDs communicate through the native device protocol southbound. The NEDs falls into the following categories:
 
+- **NETCONF capable device:** The Device Manager will produce NETCONF `edit-config` RPC operations for each participating device.
+- **SNMP device:** The Device Manager translates the changes made to the configuration into the corresponding SNMP SET PDUs
+- **Device with Cisco CLI:** The device has a CLI with the same structure as Cisco IOS or XR routers. The Device Manager and a CLI NED is used to produce the correct sequence of CLI commands which reflects the changes made to the configuration.
+- *Other devices* Devices which do not fit into any of the above mentioned categories a corresponding Generic NED is invoked. Generic NEDs are used for proprietary protocols like REST and for CLI flavours that are not resembling IOS or XR. The Device Manager will inform the Generic NED about the made changes and the NED will translate these to the appropriate operations toward the device.
+
+NSO orchestrates an atomic transaction that has the very desirable characteristic of either the transaction as a whole ends up on all participating devices *and* in the NSO master copy, or alternatively the whole transaction is aborted and all changes are automatically rolled-back.
+
+The architecture of the NETCONF protocol is the enabling technology making it possible to push out configuration changes to managed devices and then in the case of other errors, roll back changes. Devices that do not support NETCONF, i.e., devices that do not have transactional capabilities can also participate, however depending on the device, error recovery may not be as good as it is for a proper NETCONF enabled device.
+
+In order to understand the main idea behind the NSO device manager it is necessary to understand the NSO data model and how NSO incorporates the YANG data models from the different managed devices.
+
+The NEDs will publish YANG data models even for non-NETCONF devices. In case of SNMP the YANG models are generated from the MIBs. For JunOS devices the JunOS NED generates a YANG from the JunOS XML Schema. For Schema-less devices like CLI devices the NED developer writes YANG models corresponding to the CLI structure. The result of this is the device manager and NSO CDB has YANG data models for all devices independent of underlying protocol.
 
 ## SSH Key Management
+
+The SSH protocol uses public key technology for two distinct purposes:
+
+### Server authentication
+
+* This use is a mandatory part of the protocol. It allows an SSH client to authenticate the server, i.e. verify that it is really talking to the intended server and not some man-in-the-middle intruder. This requires that the client has a priori knowledge of the server's public keys, and the server proves its possession of one of the corresponding private keys by using it to sign some data. These keys are normally called "host keys", and the authentication procedure is typically referred to as "host key verification" or "host key checking".
+
+### Client authentication
+
+* This use is one of several possible client authentication methods, i.e. it is an alternative to the commonly used password authentication. The server is configured with one or more public keys which are authorized for authentication of a user. The client proves possession of one of the corresponding private keys by using it to sign some data - i.e. the exact reverse of the server authentication provided by host keys. The method is called "publickey" authentication in SSH terminology.
+
+These two usages are fundamentally independent, i.e. host key verification is done regardless of whether the client authentication is via publickey, password, or some other method. However host key verification is of particular importance when client authentication is done via password, since failure to detect a man-in-the-middle attack in this case will result in the cleartext password being divulged to the attacker.
 
 ## Network Services
 
@@ -65,23 +90,15 @@ NSO embeds a generic alarm manager. It is used for managing NSO native alarms an
 
 The Alarm Manager has three main components:
 
-- Alarm List
-
-  a list of alarms in NSO. Each list entry represents an alarm state for a specific device, object within the device and an alarm type
-
-- Alarm Model
-
-  for each alarm type, you can configure the mapping to for example X.733 alarm standard parameters that are sent as notifications northbound
-
-- Operator Actions
-
-  actions to set operator states on alarms such as acknowledgement, and also actions to administratively manage the alarm list such as deleting alarms
+- **Alarm List:** a list of alarms in NSO. Each list entry represents an alarm state for a specific device, object within the device and an alarm type
+- **Alarm Model:** for each alarm type, you can configure the mapping to for example X.733 alarm standard parameters that are sent as notifications northbound
+- **Operator Actions:** actions to set operator states on alarms such as acknowledgement, and also actions to administratively manage the alarm list such as deleting alarms
 
 The alarm manager is accessible over all northbound interfaces. A read-only view including an SNMP alarm table and alarm notifications is available in an SNMP Alarm MIB. This MIB is suitable for integration to SNMP based alarm systems.
 
-In order to populate the alarm list there is a dedicated Java API. This API lets a developer add alarms, change states on alarms etc. A common usage pattern is to use the SNMP notification receiver to map a subset of the device traps into alarms.
-
 ![NSO-DEV-Architecture](images/alarm_manager.png){ width=100% }
+
+In order to populate the alarm list there is a dedicated Java API. This API lets a developer add alarms, change states on alarms etc. A common usage pattern is to use the SNMP notification receiver to map a subset of the device traps into alarms.
 
 ## Web User Interface
 
