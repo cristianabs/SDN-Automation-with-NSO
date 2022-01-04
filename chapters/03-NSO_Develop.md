@@ -140,6 +140,31 @@ class Service(ncs.application.Application):
 - If any cleanup is needed when NSO finishes or when packages are reloaded it should be placed in the *teardown()* method.
 - The existing log functions are named after the standard Python log levels, thus in the example above the *self.log* object contains the functions *debug,info,warning,error,critical*.
 
+## The Service Algorithm - FastMap
+
+As a Service Developer you need to express the mapping from a YANG service model to the corresponding device
+YANG model. This is a declarative mapping in the sense that no sequencing is defined.
+
+Observe that irrespective of the underlying device type and corresponding native device interface, the
+mapping is towards a YANG device model, not the native CLI for example. This means that as you write
+the service mapping, you do not have to worry about the syntax of different devices' CLI commands or in
+which order these commands are sent to the devices. This is all taken care of by the NSO device manager.
+
+NSO reduces this problem to a single data-mapping definition for the "create" scenario. At run-time
+NSO will render the minimum change for any possible change like all the ones mentioned below. This is
+managed by the FASTMAP algorithm.
+
+FASTMAP covers the complete service life-cycle: creating, changing and deleting the service. The
+solution requires a minimum amount of code for mapping from a service model to a device model.
+
+FASTMAP is based on generating changes from an initial create. When the service instance is created
+the reverse of the resulting device configuration is stored together with the service instance. If an NSO
+user later changes the service instance, NSO first applies (in a transaction) the reverse diff of the service,
+effectively undoing the previous results of the service creation code. Then it runs the logic to create the
+service again, and finally executes a diff to current configuration. This diff is then sent to the devices.
+
+![Python VM](images/fastmap.png){ width=20% }
+
 ## Troubleshooting
 
 ## NBI: Yang Model
